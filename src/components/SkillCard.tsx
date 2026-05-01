@@ -20,9 +20,13 @@ const SkillCard = ({
 }: SkillRecord) => {
 	const [copied, setCopied] = useState(false);
 	const handleCopy = async () => {
-		navigator.clipboard.writeText(installCommand);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+		try {
+			await navigator.clipboard.writeText(installCommand);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch {
+			setCopied(false);
+		}
 	};
 
 	return (
@@ -51,7 +55,11 @@ const SkillCard = ({
 
 						<div className="author-copy">
 							<p>Lyudmil</p>
-							<p>{new Date(createdAt as string).toLocaleDateString()}</p>
+							<p>
+								{createdAt
+									? new Date(createdAt as string).toLocaleDateString()
+									: "Unknown date"}
+							</p>
 						</div>
 					</div>
 

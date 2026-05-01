@@ -112,11 +112,13 @@ function Home() {
 				</div>
 
 				<div>
-					{skills.length > 0 ? (
-						skills.map((skill) => <SkillCard key={skill.id} {...skill} />)
-					) : (
-						<p>No skills available.</p>
-					)}
+					{[...skills]
+						.sort((a, b) =>
+							(b.createdAt ?? "").localeCompare(a.createdAt ?? ""),
+						)
+						.map((skill) => (
+							<SkillCard key={skill.id} {...skill} />
+						))}
 				</div>
 			</section>
 		</div>
