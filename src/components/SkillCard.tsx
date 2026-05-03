@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
 import {
 	ArrowBigUp,
@@ -17,16 +18,45 @@ const SkillCard = ({
 	tags,
 	title,
 	description,
+	id,
+	slug,
 }: SkillRecord) => {
+	const posthog = usePostHog();
 	const [copied, setCopied] = useState(false);
 	const handleCopy = async () => {
 		try {
 			await navigator.clipboard.writeText(installCommand);
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
-		} catch {
+			posthog.capture("skill_install_command_copied", {
+				skill_id: id,
+				skill_slug: slug,
+				skill_title: title,
+				install_command: installCommand,
+				category,
+			});
+		} catch (err) {
 			setCopied(false);
+			posthog.captureException(err);
 		}
+	};
+
+	const handleUpvote = () => {
+		posthog.capture("skill_upvoted", {
+			skill_id: id,
+			skill_slug: slug,
+			skill_title: title,
+			category,
+		});
+	};
+
+	const handleSave = () => {
+		posthog.capture("skill_saved", {
+			skill_id: id,
+			skill_slug: slug,
+			skill_title: title,
+			category,
+		});
 	};
 
 	return (
@@ -91,7 +121,7 @@ const SkillCard = ({
 
 				<div className="footer">
 					<div className="stats">
-						<button className="upvote" type="button">
+						<button className="upvote" type="button" onClick={handleUpvote}>
 							<ArrowBigUp size={16} fill="currentColor" />
 							<span>{tags.length}</span>
 						</button>
@@ -102,12 +132,29 @@ const SkillCard = ({
 						</div>
 
 						<div className="actions">
-							<Link to="/skills" className="open" title={`Open ${title}`}>
+							<Link
+								to="/skills"
+								className="open"
+								title={`Open ${title}`}
+								onClick={() =>
+									posthog.capture("skill_opened", {
+										skill_id: id,
+										skill_slug: slug,
+										skill_title: title,
+										category,
+									})
+								}
+							>
 								<span>Open</span>
 								<ArrowUpRight size={14} />
 							</Link>
 
-							<button className="save" type="button" aria-label="Saved state">
+							<button
+								className="save"
+								type="button"
+								aria-label="Saved state"
+								onClick={handleSave}
+							>
 								<Bookmark size={14} />
 							</button>
 						</div>
