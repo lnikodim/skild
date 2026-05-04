@@ -1,0 +1,17 @@
+# This is a file for you to write an un-named mutation.
+# Only one un-named mutation is allowed per file.
+mutation {
+  skill_insert(
+    data: {
+      id: "11111111222233334444555555555558"
+      authorClerkId: "user_3D7bvDc0j3sSeWP4hnkOjL8C4P5"
+      createdAt: "2026-05-03T13:55:40.632Z"
+      description: "Learn how to effectively use React Hooks to manage state and side effects in functional components."
+      installCommand: "npm install react@latest"
+      promptConfig: "You are a professional performance optimization engineer."
+      tags: ["react", "hooks", "state-management"]
+      title: "React Hooks Mastery"
+      usageExample: "Review the code and suggest improvements for performance optimization."
+    }
+  )
+}

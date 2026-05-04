@@ -1,0 +1,16 @@
+user_3D7bvDc0j3sSeWP4hnkOjL8C4P5
+nikodimov@officernd.com
+nikodimov
+https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKUlgzck1wSDd2Z1JiS05RdUoxS2w2MXVveG5GWVFrd3VZeGg5QlJROU95ZkVicl8wPXMxMDAwLWMiLCJzIjoiNGFmdm45aGdLaHNNNEhadlZWdnJPaTJxWjVJTkxsT0VTUnZRVmtkcndUZyJ9
+
+id: "skill-001",
+title: "React Hooks Mastery",
+slug: "react-hooks-mastery",
+description:
+	"Learn how to effectively use React Hooks to manage state and side effects in functional components.",
+category: "Frontend",
+tags: ["react", "hooks", "state-management"],
+installCommand: "npm install react@latest",
+createdAt: "2024-01-15T10:30:00Z",
+authorClerkId: "user_2NP8qB5X9kL7mQ",
+authorEmail: "instructor@example.com",

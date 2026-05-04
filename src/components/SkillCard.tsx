@@ -1,3 +1,4 @@
+import type { GetSkillsData } from '#/dataconnect-generated';
 import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
 import {
@@ -10,19 +11,21 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+type SkillCardProps = GetSkillsData['skills'][number];
+
 const SkillCard = ({
-	authorEmail,
 	installCommand,
 	createdAt,
-	category,
 	tags,
 	title,
 	description,
 	id,
-	slug,
-}: SkillRecord) => {
+	author
+}: SkillCardProps) => {
 	const posthog = usePostHog();
 	const [copied, setCopied] = useState(false);
+
+	const category = tags[0] ?? 'General';
 	const handleCopy = async () => {
 		try {
 			await navigator.clipboard.writeText(installCommand);
@@ -30,7 +33,6 @@ const SkillCard = ({
 			setTimeout(() => setCopied(false), 2000);
 			posthog.capture("skill_install_command_copied", {
 				skill_id: id,
-				skill_slug: slug,
 				skill_title: title,
 				install_command: installCommand,
 				category,
@@ -44,7 +46,6 @@ const SkillCard = ({
 	const handleUpvote = () => {
 		posthog.capture("skill_upvoted", {
 			skill_id: id,
-			skill_slug: slug,
 			skill_title: title,
 			category,
 		});
@@ -53,7 +54,6 @@ const SkillCard = ({
 	const handleSave = () => {
 		posthog.capture("skill_saved", {
 			skill_id: id,
-			skill_slug: slug,
 			skill_title: title,
 			category,
 		});
@@ -81,10 +81,10 @@ const SkillCard = ({
 			<div className="body">
 				<div className="meta">
 					<div className="author">
-						<img src="/logo512.png" alt="author avatar" className="avatar" />
+						<img src={author.imageUrl || '/logo512.png'} alt="author avatar" className="avatar" />
 
 						<div className="author-copy">
-							<p>Lyudmil</p>
+							<p>{author.username}</p>
 							<p>
 								{createdAt
 									? new Date(createdAt as string).toLocaleDateString()
@@ -128,7 +128,7 @@ const SkillCard = ({
 
 						<div className="comments">
 							<MessageSquare size={14} />
-							<span>{authorEmail ? 1 : 0}</span>
+							<span>{author.email ? 1 : 0}</span>
 						</div>
 
 						<div className="actions">
@@ -139,7 +139,6 @@ const SkillCard = ({
 								onClick={() =>
 									posthog.capture("skill_opened", {
 										skill_id: id,
-										skill_slug: slug,
 										skill_title: title,
 										category,
 									})
